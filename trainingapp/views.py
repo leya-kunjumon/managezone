@@ -392,7 +392,7 @@ def trainer_currenttrainees(request,id):
         if request.session.has_key('tr_id'):
             tr_id = request.session['tr_id']
         else:
-           tr_fullname = "dummy"
+           tr_fullname = "dummyy"
     
         z = user_registration.objects.filter(id=tr_id)
         d = create_team.objects.get(id=id)
