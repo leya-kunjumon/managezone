@@ -392,19 +392,36 @@ def trainer_currenttrainees(request,id):
         if request.session.has_key('tr_id'):
             tr_id = request.session['tr_id']
         else:
-           tr_fullname = "dummyy"
+           tr_fullname = "dummy"
     
         z = user_registration.objects.filter(id=tr_id)
         d = create_team.objects.get(id=id)
         des = designation.objects.get(designation_name='trainee')
         mem = user_registration.objects.filter(
             designation_id=des.id).filter(team_id=d).order_by('-id')
-        return render(request, 'software_training/training/trainer/trainer_current_trainees_list.html',{'z':z,'mem':mem})
+        return render(request,'software_training/training/trainer/trainer_current_trainees_list.html',{'z':z,'mem':mem})
     else:
         return redirect('/')
 
-def trainer_currenttraineesdetails(request):
-    return render(request,'software_training/training/trainer/trainer_current_tainees_details.html')
+def trainer_currenttraineesdetails(request,id):
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        else:
+           tr_fullname = "dummy"
+    
+        z = user_registration.objects.filter(id=tr_id)
+           mem = user_registration.objects.get(id=id)
+        tre = create_team.objects.get(id=mem.team.id)
+        labels = []
+        data = []
+        queryset = user_registration.objects.filter(id=mem.id)
+        for i in queryset:
+            labels=[i.workperformance,i.attitude,i.creativity]
+            data=[i.workperformance,i.attitude,i.creativity]
+        return render(request,'software_training/training/trainer/trainer_current_tainees_details.html', {'mem': mem, 'tre': tre, 'z': z ,'labels': labels,'data': data,})
+    else:
+        return redirect('/')
 
 def trainer_currentattentable(request):
     return render(request,'software_training/training/trainer/trainer_current_atten_table.html')
