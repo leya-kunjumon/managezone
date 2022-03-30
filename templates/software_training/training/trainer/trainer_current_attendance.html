@@ -1,13 +1,9 @@
 {%extends 'software_training/training/trainer/base_trainer.html'%} 
 {% load static %} 
 {% block content %}
-
-
-
-  
-    <div class="row" style="padding-top:20px;">
+<div class="row" style="padding-top:20px;">
               <div class="col-12 col-sm-6 col-md-6 col-lg-6 grid-margin">
-              <a href="/trainer_current_attendance_view/" style="text-decoration: none;">
+              <a href="{% url 'trainer_current_attendance_view' mem.id  %}" style="text-decoration: none;">
                 <div class="card" style="height: 180px">
                   <div class="card-body">
                     <div class="row" style="padding-top:10px;">
@@ -26,7 +22,7 @@
               </div>
 
               <div class="col-12 col-sm-6 col-md-6 col-lg-6 grid-margin">
-              <a href="/trainer_currentattenadd/" style="text-decoration:none;">
+              <a href="{% url 'trainer_currentattenadd' mem.id  %}" style="text-decoration:none;">
                 <div class="card" style="height: 180px">
                   <div class="card-body">
                     <div class="row" style="padding-top:10px;">

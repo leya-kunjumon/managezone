@@ -14,7 +14,7 @@
             <h4 class="card-description"> Personal Information </h4>
           </div>
           <div class="col-4 col-sm-4 col-md-2 col-lg-2">
-            <img src="{% static 'softwareapp/assets/images/faces/face10.jpg' %}" class="img-fluid rounded-circle mb-3 " alt="image"
+            <img src="{{mem.photo.url}}" class="img-fluid rounded-circle mb-3 " alt="image"
               style="margin-right:20px">
           </div>
         </div>
@@ -123,29 +123,29 @@
 
 <!--Chart start-->
   
-<div class="row mt-1">
+<h3 style="padding-left: 7px">Chart</h3>
+<div class="row">
   <div class="col-lg-6 grid-margin stretch-card">
-      <div class="card">
-          <div class="card-body">
-              <h4 class="card-title" style="color:white;">Pie chart</h4>
-              <canvas id="pie-chart" style="height:200px"></canvas>
-          </div>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Pie chart</h4>
+        <canvas id="pie-chart" style="height: 250px"></canvas>
       </div>
+    </div>
   </div>
   <div class="col-lg-6 grid-margin stretch-card">
-      <div class="card">
-          <div class="card-body">
-              <h4 class="card-title" style="color:white;">Bar chart</h4>
-              <canvas id="barChart" style="height:200px"></canvas>
-          </div>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Bar chart</h4>
+        <canvas id="chart" style="height: 230px"></canvas>
       </div>
+    </div>
   </div>
-</div>
 <!--End Chart Html-->
 
 <div class="row" style="padding-top:20px;">
               <div class="col-12 col-sm-6 col-md-6 col-lg-6 grid-margin">
-              <a href="/softwareapp/trainer_previousattentable/{{mem.id}}" style="text-decoration:none;">
+              <a href="{% url 'trainer_previousattentable' mem.id %}" style="text-decoration:none;">
                 <div class="card" style="height: 200px">
                   <div class="card-body" >
                     <div class="row" style="padding-top:20px;">
@@ -164,7 +164,7 @@
               </div>
 
               <div class="col-12 col-sm-6 col-md-6 col-lg-6 grid-margin">
-              <a href="/softwareapp/trainer_previousperfomtable/{{mem.id}}" style="text-decoration:none;">
+              <a href="{% url 'trainer_previousperfomtable' mem.id %}" style="text-decoration:none;">
                 <div class="card" style="height: 200px">
                   <div class="card-body">
                     <div class="row" style="padding-top:20px;">
@@ -186,13 +186,13 @@
 </div>
 
 <script>
-
-  var config = {
+var config = {
     type: 'pie',
     data: {
       datasets: [{
 
-        data: {{ data| safe }
+        data: {{ data | safe }
+        
   },
     backgroundColor: ['rgba(255, 99, 132, 0.5)',
       'rgba(54, 162, 235, 0.5)',
@@ -251,5 +251,6 @@
   });
 
 </script>
+
 {%endblock%}
   
