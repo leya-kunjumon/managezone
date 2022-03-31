@@ -310,13 +310,7 @@ def trainer_dashboard(request):
         if request.session.has_key('tr_id'):
            tr_id = request.session['tr_id']
         z = user_registration.objects.filter(id=tr_id)
-        labels = []
-        data = []
-        queryset = user_registration.objects.filter(id=tr_id)
-        for i in queryset:
-            labels = [i.workperformance,i.attitude,i.creativity]
-            data = [i.workperformance,i.attitude,i.creativity]
-        return render(request,'software_training/training/trainer/trainer_dashboard.html', {'z': z ,'labels': labels,'data': data})
+        return render(request,'software_training/training/trainer/trainer_dashboard.html',{'z': z})
     else:
         return redirect('/')
         
@@ -384,7 +378,6 @@ def trainer_topic(request):
             tr_id = request.session['tr_id']
         else:
            tr_fullname = "dummy"
-    
         z = user_registration.objects.filter(id=tr_id)
         return render(request,'software_training/training/trainer/trainer_topic.html',{'z': z})
     else:
@@ -394,11 +387,12 @@ def trainer_addtopic(request):
     if 'tr_id' in request.session:
         if request.session.has_key('tr_id'):
             tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+           tr_fullname = request.session['tr_fullname']
         else:
            tr_fullname = "dummy"
-    
         z = user_registration.objects.filter(id=tr_id)
-        crt = create_team.objects.all()
+        crt = create_team.objects.filter(create_team_trainer=tr_fullname,create_team_status=0)
         mem = topic()
         if request.method == 'POST':
             mem.topic_team_id = request.POST['select']
@@ -406,10 +400,10 @@ def trainer_addtopic(request):
             mem.topic_startdate = request.POST['start']
             mem.topic_enddate = request.POST['end']
             mem.topic_status = 0
+            mem.topic_trainer_id = tr_id 
             mem.save()
             return render(request,'software_training/training/trainer/trainer_addtopic.html',{'crt':crt,'mem': mem,'z':z})
         return render(request,'software_training/training/trainer/trainer_addtopic.html',{'crt':crt,'mem': mem,'z':z})
-        
     else:
         return redirect('/')
 
@@ -421,12 +415,10 @@ def trainer_viewtopic(request):
            tr_fullname = "dummy"
     
         z = user_registration.objects.filter(id=tr_id)
-        mem = topic.objects.all().order_by('-id')
+        mem = topic.objects.filter(topic_trainer=tr_id).order_by('-id')
         return render(request,'software_training/training/trainer/trainer_viewtopic.html',{'mem':mem,'z':z})
     else:
         return redirect('/')
-
-
 
 def trainer_team(request):
     if 'tr_id' in request.session:
@@ -466,7 +458,6 @@ def trainer_currenttrainees(request,id):
             tr_id = request.session['tr_id']
         else:
            tr_fullname = "dummy"
-    
         z = user_registration.objects.filter(id=tr_id)
         d = create_team.objects.get(id=id)
         des = designation.objects.get(designation_name='trainee')
@@ -502,7 +493,6 @@ def trainer_currentattentable(request,id):
             tr_id = request.session['tr_id']
         else:
            tr_fullname = "dummy"
-    
         z = user_registration.objects.filter(id=tr_id)
         mem = user_registration.objects.get(id=id)
         if request.method == 'POST':
@@ -560,7 +550,6 @@ def trainer_previousteam(request):
            tr_fullname = request.session['tr_fullname']
         else:
            tr_fullname = "dummy"
-    
         z = user_registration.objects.filter(id=tr_id).filter(fullname=tr_fullname)
         tm = create_team.objects.filter(create_team_trainer=tr_fullname).filter(create_team_status = 1).order_by('-id')
         return render(request,'software_training/training/trainer/trainer_previous_team_list.html',{'z':z,'tm':tm})
@@ -597,7 +586,7 @@ def trainer_previoustraineesdetails(request,id):
             labels = [i.workperformance,i.attitude,i.creativity]
             data = [i.workperformance,i.attitude,i.creativity]
         print(data)
-        return render(request,'software_training/training/trainer/trainer_previous_trainees_details.html',{'mem': mem, 'tre': tre, 'z': z ,'labels': labels,'data': data})
+        return render(request,'software_training/training/trainer/trainer_previous_trainees_details.html',{'mem': mem, 'tre': tre, 'z': z ,'labels': labels,'data': data,})
     else:
         return redirect('/')
 
@@ -643,8 +632,6 @@ def trainer_Task(request) :
     if 'tr_id' in request.session:
         if request.session.has_key('tr_id'):
             tr_id = request.session['tr_id']
-        if request.session.has_key('tr_fullname'):
-            tr_fullname = request.session['tr_fullname']
         else:
            tr_fullname = "dummy"
         z = user_registration.objects.filter(id=tr_id)
@@ -652,105 +639,142 @@ def trainer_Task(request) :
     else:
         return redirect('/')
     
-def trainer_teamlistpage(request) :
-    # if 'tr_id' in request.session:
-    #     if request.session.has_key('tr_id'):
-    #         tr_id = request.session['tr_id']
-    #     if request.session.has_key('tr_fullname'):
-    #         tr_fullname = request.session['tr_fullname']
-    #     else:
-    #        tr_fullname = "dummy"
-    #     z = user_registration.objects.filter(id=tr_id)
-    #     tam = create_team.objects.filter(create_team_trainer=tr_fullname,create_team_status = 0).order_by('-id')
-    #     des = designation.objects.get(designation_name='trainee')
-    #     cut = user_registration.objects.filter(designation_id=des.id)
-        return render(request,'software_training/training/trainer/trainer_teamlist.html')
-    # else:
-    #     return redirect('/')
-   
-    
-def trainer_taskpage(request) :
-    # if 'tr_id' in request.session:
-    #     if request.session.has_key('tr_id'):
-    #         tr_id = request.session['tr_id']
-    #     if request.session.has_key('tr_fullname'):
-    #         tr_fullname = request.session['tr_fullname']
-    #     else:
-    #        tr_fullname = "dummy"
-    #     z = user_registration.objects.filter(id=tr_id)
-    #     d = create_team.objects.get(id=id)
-        return render(request, 'software_training/training/trainer/trainer_taskfor.html')
-    # else:
-    #     return redirect('/')
-    
-def trainer_givetask(request) :
-    # if 'tr_id' in request.session:
-    #     if request.session.has_key('tr_id'):
-    #         tr_id = request.session['tr_id']
-    #     if request.session.has_key('tr_fullname'):
-    #         tr_fullname = request.session['tr_fullname']
-    #     else:
-    #        tr_fullname = "dummy"
-    #     z = user_registration.objects.filter(id=tr_id)
-    #     d = create_team.objects.get(id=id)
-    #     des = designation.objects.get(designation_name='trainee')
-    #     var = user_registration.objects.filter(team_id=d).filter(designation_id=des.id)
-    #     if request.method == 'POST':
-    #         list= request.POST.get('trainee_list')
-    #         name = request.POST.get('taskname')
-    #         desc = request.POST.get('description')
-    #         files= request.FILES['files']
-    #         start= request.POST.get('start')
-    #         end = request.POST.get('end')
-    #         task_status = 0
-    #         team_name_id = d.id
-    #         vars = trainer_task(trainer_task_user=list,trainer_task_taskname=name,trainer_task_description=desc,trainer_task_files=files,trainer_task_startdate=start,
-    #                  trainer_task_enddate=end,trainer_task_status=task_status,trainer_task_team_name =team_name_id)
-    #         vars.save()
-    #         return render(request, 'software_training/training/trainer/trainer_givetask.html', {'z': z, 'var': var})
-        # else:
-            return render(request,'software_training/training/trainer/trainer_givetask.html')
-    # else:
-    #     return redirect('/')
-    
-    
-def trainer_taskgivenpage(request) :
-    # if 'tr_id' in request.session:
-    #     if request.session.has_key('tr_id'):
-    #         tr_id = request.session['tr_id']
-    #     if request.session.has_key('tr_fullname'):
-    #         tr_fullname = request.session['tr_fullname']
-    #     else:
-    #        tr_fullname = "dummy"
-    #     z = user_registration.objects.filter(id=tr_id)
-    #     d = create_team.objects.get(id=id)
-    #     c = trainer_task.objects.filter(trainer_task_team_name_id=d.id)
-    #     des = designation.objects.get(designation_name='trainee')
-    #     mem1 = user_registration.objects.filter(designation_id=des.id).filter(team_id=d).order_by('-id')
-    #     mem = user_registration.objects.filter(designation_id=des.id).filter(team_id=d).values_list('id')
-    #     tsk = trainer_task.objects.filter(trainer_task_team_name_id=d.id).filter(trainer_task_user__in=mem).order_by('-id')
-        return render(request,'software_training/training/trainer/trainer_taskgiven.html')
-    # else:
-    #     return redirect('/')
-    
-def trainer_taska(request):
-    return render(request, 'software_training/training/trainer/trainer_taska.html')
+def trainer_teamlist(request) :
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+            tr_fullname = request.session['tr_fullname']
+        else:
+           tr_fullname = "dummy"
+        z = user_registration.objects.filter(id=tr_id)
+        tam = create_team.objects.filter(create_team_trainer=tr_fullname,create_team_status = 0).order_by('-id')
+        des = designation.objects.get(designation_name='trainee')
+        cut = user_registration.objects.filter(designation_id=des.id)
+        return render(request,'software_training/training/trainer/trainer_teamlist.html',{'z' :z,'tam': tam, 'cut': cut})
+    else:
+        return redirect('/')
 
+def trainer_taskpage(request,id) :
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+            tr_fullname = request.session['tr_fullname']
+        else:
+           tr_fullname = "dummy"
+        z = user_registration.objects.filter(id=tr_id)
+        d = create_team.objects.get(id=id)
+        return render(request, 'software_training/training/trainer/trainer_taskfor.html',{'d': d, 'z': z})
+    else:
+        return redirect('/')
+    
+def trainer_givetask(request,id) :
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+            tr_fullname = request.session['tr_fullname']
+        else:
+           tr_fullname = "dummy"
+        z = user_registration.objects.filter(id=tr_id)
+        d = create_team.objects.get(id=id)
+        des = designation.objects.get(designation_name='trainee')
+        var = user_registration.objects.filter(team_id=d).filter(designation_id=des.id)
+        if request.method == 'POST':
+            list= request.POST.get('list')
+            name = request.POST.get('taskname')
+            desc = request.POST.get('description')
+            files= request.FILES['files']
+            start= request.POST.get('start')
+            end = request.POST.get('end')
+            task_status = 0
+            team_name = id
+            vars = trainer_task(trainer_task_user_id=list,trainer_task_taskname=name,trainer_task_description=desc,trainer_task_files=files,trainer_task_startdate=start,
+                     trainer_task_enddate=end,trainer_task_status=task_status,trainer_task_team_name_id =team_name)
+            vars.save()
+            return render(request, 'software_training/training/trainer/trainer_givetask.html', {'z': z, 'var': var})
+        else:
+            return render(request,'software_training/training/trainer/trainer_givetask.html',{'z': z, 'var': var})
+    else:
+        return redirect('/')
+    
+def trainer_taskgivenpage(request,id) :
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+            tr_fullname = request.session['tr_fullname']
+        else:
+           tr_fullname = "dummy"
+        z = user_registration.objects.filter(id=tr_id)
+        d = create_team.objects.get(id=id)
+        c = trainer_task.objects.filter(trainer_task_team_name_id=d.id)
+        des = designation.objects.get(designation_name='trainee')
+        mem1 = user_registration.objects.filter(designation_id=des.id).filter(team_id=d).order_by('-id')
+        mem = user_registration.objects.filter(designation_id=des.id).filter(team_id=d).values_list('id')
+        tsk = trainer_task.objects.filter(trainer_task_team_name_id=d.id).filter(trainer_task_user__in=mem).order_by('-id')
+        return render(request,'software_training/training/trainer/trainer_taskgiven.html',{'mem': mem,'mem1': mem1, 'tsk': tsk, 'z': z})
+    else:
+        return redirect('/')
+    
 def trainer_task_completed_teamlist(request):
-    return render(request, 'software_training/training/trainer/trainer_task_completed_teamlist.html')
-
-def trainer_task_completed_team_tasklist(request):
-    return render(request, 'software_training/training/trainer/trainer_task_completed_team_tasklist.html')
-
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+            tr_fullname = request.session['tr_fullname']
+        else:
+           tr_fullname = "dummy"
+        z = user_registration.objects.filter(id=tr_id).filter(fullname=tr_fullname)
+        tam = create_team.objects.filter(create_team_trainer=tr_fullname,create_team_status= 1).order_by('-id')
+        des = designation.objects.get(designation_name='trainee')
+        cut = user_registration.objects.filter(designation_id=des.id)
+        return render(request, 'software_training/training/trainer/trainer_task_completed_teamlist.html',{'z': z, 'cut':cut, 'tam':tam})
+    else:
+        return redirect('/')
+def trainer_task_completed_team_tasklist(request,id):
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        else:
+           tr_fullname = "dummy"
+        z = user_registration.objects.filter(id=tr_id)
+        tsk = trainer_task.objects.filter(trainer_task_team_name=id).order_by('-id')
+        return render(request, 'software_training/training/trainer/trainer_task_completed_team_tasklist.html',{'z': z, 'tsk':tsk})
+    else:
+        return redirect('/')
 def trainer_task_previous_teamlist(request):
-    return render(request, 'software_training/training/trainer/trainer_task_previous_teamlist.html')
-
-def trainer_task_previous_team_tasklist(request):
-    return render(request, 'software_training/training/trainer/trainer_task_previous_team_tasklist.html')
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+            tr_fullname = request.session['tr_fullname']
+        else:
+           tr_fullname = "dummy"
+        z = user_registration.objects.filter(id=tr_id).filter(fullname=tr_fullname)
+        tam = create_team.objects.filter(create_team_trainer=tr_fullname,create_team_status= 1).order_by('-id')
+        des = designation.objects.get(designation_name='trainee')
+        cut = user_registration.objects.filter(designation_id=des.id)
+        return render(request, 'software_training/training/trainer/trainer_task_previous_teamlist.html',{'z': z, 'cut':cut, 'tam':tam})
+    else:
+        return redirect('/')
+def trainer_task_previous_team_tasklist(request,id):
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        else:
+           tr_fullname = "dummy"
+        z = user_registration.objects.filter(id=tr_id)
+        tsk = trainer_task.objects.filter(trainer_task_team_name_id=id).order_by('-id')
+        return render(request, 'software_training/training/trainer/trainer_task_previous_team_tasklist.html',{'z': z, 'tsk':tsk})
+    else:
+        return redirect('/')
 
 def trainer_trainees(request):
     if 'tr_id' in request.session:
         if request.session.has_key('tr_id'):
+   
             tr_id = request.session['tr_id']
         if request.session.has_key('tr_fullname'):
             tr_fullname = request.session['tr_fullname']

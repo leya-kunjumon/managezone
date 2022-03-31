@@ -24,6 +24,14 @@
                 </div>
               </div>
             </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="form-group row">
+                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">Course Name:</label>
+                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                  <p class="mt-2">{{mem.course.course_name}}</p>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
@@ -121,7 +129,7 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">Pie chart</h4>
-          <canvas id="pie-chart" style="height: 250px"></canvas>
+          <canvas id="piechart" style="height: 250px"></canvas>
         </div>
       </div>
     </div>
@@ -129,7 +137,7 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">Bar chart</h4>
-          <canvas id="chart" style="height: 230px"></canvas>
+          <canvas id="barchart" style="height: 230px"></canvas>
         </div>
       </div>
     </div>
@@ -179,7 +187,7 @@
       data: {
         datasets: [{
 
-          data: {{ data| safe }
+          data: {{data|safe}
     },
       backgroundColor: ['rgba(255, 99, 132, 0.5)',
         'rgba(54, 162, 235, 0.5)',
@@ -188,7 +196,7 @@
         'rgba(153, 102, 255, 0.5)',
         'rgba(255, 159, 64, 0.5)'],
       label: 'workperformance'
-            }],
+    }],
 
     labels: ['workperformance', 'Attitude', 'Creativity']
             
@@ -199,14 +207,13 @@
         };
 
     window.onload = function () {
-      var ctx = document.getElementById('pie-chart').getContext('2d');
+      var ctx = document.getElementById('piechart').getContext('2d');
       window.myPie = new Chart(ctx, config);
     };
-
-  </script>
+</script>
   <script>
 
-    let ctx = document.getElementById("chart").getContext("2d");
+    let ctx = document.getElementById("barchart").getContext("2d");
     let chart = new Chart(ctx, {
       type: "bar",
       data: {

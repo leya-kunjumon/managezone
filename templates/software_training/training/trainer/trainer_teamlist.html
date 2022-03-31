@@ -58,20 +58,18 @@
                             <tr data-href="#">
                                 <th class="text-white ">SNo</th>
                                 <th class="text-white">Teams</th>
-                                <th class="text-white">Members</th>
                                 <th class="text-white">Progress</th>
                             </tr>
                         </thead>
                         <tbody>
                             <br> {% if tam %}{% for i in tam %}
-                            <tr data-href="{% url 'trainer_taskfor' i.id %} ">
+                            <tr data-href="/softwareapp/trainer_taskfor/{{i.id}} ">
                                 <td>
                                     {{ forloop.counter }}
                                 </td>
                                 <td>
                                     {{i.create_team_name}}
                                 </td>
-                                <td style="padding-left:40px;"> {{ i.create_team_count}} </td>
                                 <td>
                                     <div class="progress">
                                         <div class="progress-bar " role="progressbar"
@@ -100,7 +98,7 @@
         table = document.getElementById("myTable");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
+            td = tr[i].getElementsByTagName("td")[1];
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {

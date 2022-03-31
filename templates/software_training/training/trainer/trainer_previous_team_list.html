@@ -28,16 +28,19 @@ table tr[data-href] {
                             <table class="table" id="myTable">
                         <thead>
                             <tr data-href="#">
+                                <th class="text-white">SNo.</th>
                                 <th class="text-white" >Teams</th>
-                                <th class="text-white" >Members</th>
-                                <th class="text-white">Progress</th>
+                                <th class="text-white" >progress</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% if tm %} {% for t in tm %}
                             <tr data-href="{% url 'trainer_previoustrainees' t.id %}">
+                                <td>
+                                    {{forloop.counter}}
+                                </td>
                                 <td>{{t.create_team_name}}</td>
-                                <td style="padding-left:80px;">{{t.create_team_count}}</td>
+                                
                                 <td>
                                     <div class="progress">
                                         <div class="progress-bar bg-success" role="progressbar" style="width: {{t.create_team_progress}}%"

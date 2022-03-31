@@ -4,7 +4,6 @@
         background-color: rgb(37, 125, 207);
         }
 </style>
-{% for z in z %}
 <div class="row">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
         <div class="card mt-3 mb-5">
@@ -20,6 +19,7 @@
                                 data-target="#myModal{{z.id}}">
                         </div>
                     </div>
+                    <p class="card-description"> Personal details </p>
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group row">
@@ -33,17 +33,17 @@
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group row">
-                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">Email:</label>
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">Gender:</label>
                                 <div class="col-6 col-sm-6 col-md-6 col-lg-6">
-                                    <p class="mt-2">{{z.email}}</p>
+                                    <p class="mt-2">{{z.gender}}</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group row">
-                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">Contact No:</label>
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">Date of Birth:</label>
                                 <div class="col-6 col-sm-6 col-md-6 col-lg-6">
-                                    <p class="mt-2">{{z.mobile}}</p>
+                                    <p class="mt-2">{{z.dateofbirth}}</p>
                                 </div>
                             </div>
                         </div>
@@ -57,13 +57,61 @@
                                 </div>
                             </div>
                         </div>
+                        <br><br><br><br>
+                        <p class="card-description"> Address</p>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">Address1:</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                    <p class="mt-2">{{z.presentaddress1}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">State:</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                    <p class="mt-2">{{z.state}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">Address2:</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                    <p class="mt-2">{{z.presentaddress2}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">Postcode:</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                    <p class="mt-2">{{z.pincode}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">City:</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                    <p class="mt-2">{{z.district}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group row">
+                                <label class="col-6 col-sm-6 col-md-6 col-lg-6 col-form-label">Country:</label>
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                    <p class="mt-2">{{z.country}}</p>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
-            </div>
         </div>
-    {% endfor %}
-     <!-- modal starts -->
-    {%for z in z %}
+    </div>
+<!-- modal starts -->
     <form method="post" action="{% url 'trainerimagechange' z.id %}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="modal" id="myModal{{z.id}}">
@@ -104,6 +152,6 @@
                 </div>
             </div>
         </form>
-    {% endfor %}
+    
     <!-- modal end -->
 {%endblock%}
