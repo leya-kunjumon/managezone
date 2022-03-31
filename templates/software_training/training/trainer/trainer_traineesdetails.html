@@ -1,9 +1,6 @@
 {%extends 'software_training/training/trainer/base_trainer.html'%}
 {% load static %}
 {% block content %}
-
-
-
 <div class="row">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
         <div class="card mt-3 mb-5">
@@ -14,8 +11,8 @@
                             <h4 class="card-description"> Personal Information </h4>
                         </div>
                         <div class="col-4 col-sm-4 col-md-2 col-lg-2">
-                            <img src="{{mem.photo.url}}"
-                                class="img-fluid rounded-circle mb-3 " alt="image" style="margin-right:20px">
+                            <img src="{{mem.photo.url}}" class="img-fluid rounded-circle mb-3 " alt="image"
+                                style="margin-right:20px">
                         </div>
                     </div>
                     <p class="card-description"> Personal details </p>
@@ -64,7 +61,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <br><br><br><br>
                         <p class="card-description"> Address</p>
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
@@ -115,34 +111,31 @@
                                 </div>
                             </div>
                         </div>
-
                 </form>
             </div>
         </div>
     </div>
-
     <!--Chart start-->
-
-    <div class="row mt-1">
+    <h3 style="padding-left: 7px">Chart</h3>
+    <div class="row">
         <div class="col-lg-6 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title" style="color:white;">Pie chart</h4>
-                    <canvas id="pie-chart" style="height:200px"></canvas>
+                    <h4 class="card-title">Pie chart</h4>
+                    <canvas id="pie-chart" style="height: 250px"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-lg-6 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title" style="color:white;">Bar chart</h4>
-                    <canvas id="barChart" style="height:200px"></canvas>
+                    <h4 class="card-title">Bar chart</h4>
+                    <canvas id="chart" style="height: 230px"></canvas>
                 </div>
             </div>
         </div>
     </div>
     <script>
-
         var config = {
             type: 'pie',
             data: {
@@ -157,15 +150,15 @@
                 'rgba(153, 102, 255, 0.5)',
                 'rgba(255, 159, 64, 0.5)'],
             label: 'workperformance'
-                }],
+            }],
 
         labels: ['workperformance', 'Attitude', 'Creativity']
-                
-              },
+            
+          },
         options: {
             responsive: true
         }
-            };
+        };
 
         window.onload = function () {
             var ctx = document.getElementById('pie-chart').getContext('2d');
@@ -194,18 +187,18 @@
             'rgba(75, 192, 192, 0.2)',
             'rgba(153, 102, 255, 0.2)',
             'rgba(255, 159, 64, 0.2)'],
-      
-          }
-         ]
-        },
+  
+      }
+     ]
+    },
         options: {
             title: {
                 text: "Performance",
                     display: true
             }
         }
-      });
+  });
 
     </script>
-    
+
     {%endblock%}

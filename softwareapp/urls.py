@@ -347,7 +347,6 @@ urlpatterns = [
 
     # ****************************Trainer******************************
 
-    path('trainer_dashboard/', training_views.trainer_dashboard, name='trainer_dashboard'),
     path('trainer_applyleave/', training_views.trainer_applyleave, name='trainer_applyleave'),
     path('trainer_applyleave_form/', training_views.trainer_applyleave_form, name='trainer_applyleave_form'),
     path('trainer_traineesleave_table/', training_views.trainer_traineesleave_table, name='trainer_traineesleave_table'),
@@ -358,15 +357,16 @@ urlpatterns = [
     path('trainer_attendance_trainees_viewattendance/', training_views.trainer_attendance_trainees_viewattendance, name='trainer_attendance_trainees_viewattendance'),
     path('trainer_attendance_trainees_viewattendancelist/', training_views.trainer_attendance_trainees_viewattendancelist, name='trainer_attendance_trainees_viewattendancelist'),    
     path('trainer_attendance_trainees_addattendance/', training_views.trainer_attendance_trainees_addattendance, name='trainer_attendance_trainees_addattendance'),
-    
-    path('trainer_topic/', training_views.trainer_topic, name='trainer_topic'),
-    path('trainer_addtopic/', training_views.trainer_addtopic, name='trainer_addtopic'),
-    path('trainer_viewtopic/', training_views.trainer_viewtopic, name='trainer_viewtopic'),
     path('trainer_attendance/', training_views.trainer_attendance, name='trainer_attendance'),   
     path('trainer_attendance_trainer/', training_views.trainer_attendance_trainer, name='trainer_attendance_trainer'),    
     path('trainer_attendance_trainer_viewattendance/', training_views.trainer_attendance_trainer_viewattendance, name='trainer_attendance_trainer_viewattendance'),
     path('trainer_attendance_trainer_viewattendancelist/', training_views.trainer_attendance_trainer_viewattendancelist, name='trainer_attendance_trainer_viewattendancelist'),  
     path('trainer_attendance_trainees/', training_views.trainer_attendance_trainees, name='trainer_attendance_trainees'), 
+     
+    path('trainer_dashboard/', training_views.trainer_dashboard, name='trainer_dashboard'),
+    path('trainer_topic/', training_views.trainer_topic, name='trainer_topic'),
+    path('trainer_addtopic/', training_views.trainer_addtopic, name='trainer_addtopic'),
+    path('trainer_viewtopic/', training_views.trainer_viewtopic, name='trainer_viewtopic'),
     path('trainer_team/', training_views.trainer_team, name='trainer_team'),
     path('trainer_currentteam/', training_views.trainer_currentteam, name='trainer_currentteam'),
     path('trainer_currenttrainees/<int:id>', training_views.trainer_currenttrainees, name='trainer_currenttrainees'),
@@ -383,10 +383,10 @@ urlpatterns = [
     path('trainer_current_attendance/<int:id>', training_views.trainer_current_attendance, name='trainer_current_attendance'),
     path('trainer_current_attendance_view/<int:id>', training_views.trainer_current_attendance_view, name='trainer_current_attendance_view'),
     path('trainer_Task/',training_views.trainer_Task,name="trainer_Task"),
-    path('trainer_teamlist/',training_views.trainer_teamlist,name="traineer_teamlist"),
-    path('trainer_taskfor/<int:id>',training_views.trainer_taskpage,name="traineer_taskpage"),
-    path('trainer_givetask/<int:id>',training_views.trainer_givetask,name="traineer_givetask"),
-    path('trainer_taskgiven/<int:id>',training_views.trainer_taskgivenpage,name="traineer_taskgivenpage"),        
+    path('trainer_teamlist/',training_views.trainer_teamlistpage,name="traineer_teamlistpage"),
+    path('trainer_taskfor/',training_views.trainer_taskpage,name="traineer_taskpage"),
+    path('trainer_givetask/',training_views.trainer_givetask,name="traineer_givetask"),
+    path('trainer_taskgiven/',training_views.trainer_taskgivenpage,name="traineer_taskgivenpage"),        
     path('trainer_taska/', training_views.trainer_taska, name='trainer_taska'),
     path('trainer_task_completed_teamlist/', training_views.trainer_task_completed_teamlist, name='trainer_task_completed_teamlist'),
     path('trainer_task_completed_team_tasklist/', training_views.trainer_task_completed_team_tasklist, name='trainer_task_completed_team_tasklist'),
@@ -394,6 +394,11 @@ urlpatterns = [
     path('trainer_task_previous_team_tasklist/', training_views.trainer_task_previous_team_tasklist, name='trainer_task_previous_team_tasklist'),
     path('trainer_trainees/', training_views.trainer_trainees, name='trainer_trainees'),
     path('trainer_traineesdetails/<int:id>', training_views.trainer_traineesdetails, name='trainer_traineesdetails'),
+    path('trainer_imagechange/', training_views.trainer_imagechange, name='trainer_imagechange'),
+    path('trainerimagechange/<int:id>', training_views.trainerimagechange, name='trainerimagechange'),
+    path('trainer_passwordchange/', training_views.trainer_passwordchange, name='trainer_passwordchange'),
+    path('trainer_logout/', training_views.trainer_logout, name='trainer_logout'),
+    
     
    
    

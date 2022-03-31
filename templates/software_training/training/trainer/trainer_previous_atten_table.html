@@ -1,14 +1,9 @@
 {%extends 'software_training/training/trainer/base_trainer.html'%} {% load static %} {% block content %}
-
 <style>
-
-
 table tr[data-href] {
     cursor: pointer;
 }
-
 </style>
-
 <div class="row ">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 grid-margin">
       <div class="card">
@@ -26,12 +21,10 @@ table tr[data-href] {
             </form>
           </div>
         </div>
-
-          <div class="table-responsive">
+        <div class="table-responsive">
             <table class="table" id="myTable">
               <thead>
                 <tr data-href="#">
-                  
                   <th> Date </th>
                   <th> Login Time </th>
                   <th> Logout Time </th>                 
@@ -54,7 +47,6 @@ table tr[data-href] {
               {% endfor %}{% else %}
               <h5>Nothing to display...</h5>
               {% endif %}
-            
             </tbody>
             </table>
           </div>
@@ -62,9 +54,6 @@ table tr[data-href] {
       </div>
     </div>
   </div>
-
-
-
 <script>
   function myFunction() {
     var input, filter, table, tr, td, i, txtValue;

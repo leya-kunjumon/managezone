@@ -34,7 +34,6 @@
         background-color: #f21111;
     }
 </style>
-
 <div class="row mt-5">
     <div class="col-12 col-sm-2 col-md-2 col-lg-2 "></div>
     <div class=" col-12 col-sm-8 col-md-8 col-lg-8 grid-margin ">
@@ -53,7 +52,6 @@
                         </form>
                     </div>
                 </div>
-
                 <div class="table-responsive">
                     <table class="table" id="myTable">
                         <thead>
@@ -66,8 +64,7 @@
                         </thead>
                         <tbody>
                             <br> {% if tam %}{% for i in tam %}
-
-                            <tr data-href="{% url 'trainer_taskfor' i.id %}">
+                            <tr data-href="{% url 'trainer_taskfor' i.id %} ">
                                 <td>
                                     {{ forloop.counter }}
                                 </td>
@@ -77,18 +74,16 @@
                                 <td style="padding-left:40px;"> {{ i.create_team_count}} </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar " role="progressbar" style="width: {{i.create_team_progress}}% "
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{i.create_team_progress}}%
+                                        <div class="progress-bar " role="progressbar"
+                                            style="width: {{i.create_team_progress}}% " aria-valuenow="25"
+                                            aria-valuemin="0" aria-valuemax="100">{{i.create_team_progress}}%
                                         </div>
                                     </div>
                                 </td>
-
                             </tr>
-
                             {% endfor %}{% else %}
                             <h5>Nothing to display...</h5>
                             {% endif %}
-
                         </tbody>
                     </table>
                 </div>
@@ -97,7 +92,6 @@
     </div>
 </div>
 </div>
-
 <script>
     function myFunction() {
         var input, filter, table, tr, td, i, txtValue;
@@ -117,14 +111,11 @@
             }
         }
     }
-
     progressBar = document.querySelectorAll('.progress-bar');
     progressBar.forEach(function (onebyone) {
         console.log(onebyone.style.width)
-
         if (onebyone.style.width == '100%') {
             onebyone.parentElement.parentElement.innerHTML = 'Completed';
-
         } else if (onebyone.style.width >= '85%' && onebyone.style.width <= '99%') {
             onebyone.classList.add('class_Above85');
         } else if (onebyone.style.width >= '75%' && onebyone.style.width <= '84%') {
@@ -140,10 +131,7 @@
         } else if (onebyone.style.width <= '24%' && onebyone.style.width >= '0%') {
             onebyone.classList.add('class_Above10');
         }
-
     })
-
-
     $(document).ready(function () {
         $('table tr').click(function () {
             window.location = $(this).data('href');
@@ -151,7 +139,4 @@
         });
     });
 </script>
-
-
-
 {%endblock%}
