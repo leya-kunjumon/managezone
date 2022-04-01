@@ -58,7 +58,7 @@
                             <tr>
                                 <th class="text-white ">SNo</th>
                                 <th class="text-white">Teams</th>
-                                 <th class="text-white">Progress </th>
+                                <th class="text-white">Progress </th>
                                 <th class="text-white">Performance </th>
                             </tr>
                         </thead>
@@ -73,7 +73,6 @@
                                     <a href="{% url 'trainer_currenttrainees' i.id %}"
                                         style="text-decoration:none; color: #6C7293"> {{i.create_team_name}} </a>
                                 </td>
-                              
                                 <td>
                                     <div class="progress">
                                         <div class="progress-bar " role="progressbar"
@@ -159,11 +158,11 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-outline-primary btn-icon-text">
                         <i class="mdi mdi-file-check text-info" style="font-size:18px; "></i>Submit</button>
-                    </form>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+</div>
+</div>
 {% endfor %}
 <!-- modal end -->
 <script>

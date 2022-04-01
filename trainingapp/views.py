@@ -12,6 +12,10 @@ from django.conf import settings
 import qrcode
 from django.contrib.auth.models import auth, User
 from django.contrib.auth import authenticate
+from django.core.files.storage import FileSystemStorage
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
 
 # Create your views here.
 
@@ -479,7 +483,7 @@ def trainer_currenttraineesdetails(request,id):
         tre = create_team.objects.get(id=mem.team.id)
         labels = []
         data = []
-        queryset = user_registration.objects.filter(id=tr_id)
+        queryset = user_registration.objects.filter(id=id)
         for i in queryset:
             labels = [i.workperformance,i.attitude,i.creativity]
             data = [i.workperformance,i.attitude,i.creativity]
@@ -718,32 +722,32 @@ def trainer_taskgivenpage(request,id) :
     else:
         return redirect('/')
     
-def trainer_task_completed_teamlist(request):
-    if 'tr_id' in request.session:
-        if request.session.has_key('tr_id'):
-            tr_id = request.session['tr_id']
-        if request.session.has_key('tr_fullname'):
-            tr_fullname = request.session['tr_fullname']
-        else:
-           tr_fullname = "dummy"
-        z = user_registration.objects.filter(id=tr_id).filter(fullname=tr_fullname)
-        tam = create_team.objects.filter(create_team_trainer=tr_fullname,create_team_status= 1).order_by('-id')
-        des = designation.objects.get(designation_name='trainee')
-        cut = user_registration.objects.filter(designation_id=des.id)
-        return render(request, 'software_training/training/trainer/trainer_task_completed_teamlist.html',{'z': z, 'cut':cut, 'tam':tam})
-    else:
-        return redirect('/')
-def trainer_task_completed_team_tasklist(request,id):
-    if 'tr_id' in request.session:
-        if request.session.has_key('tr_id'):
-            tr_id = request.session['tr_id']
-        else:
-           tr_fullname = "dummy"
-        z = user_registration.objects.filter(id=tr_id)
-        tsk = trainer_task.objects.filter(trainer_task_team_name=id).order_by('-id')
-        return render(request, 'software_training/training/trainer/trainer_task_completed_team_tasklist.html',{'z': z, 'tsk':tsk})
-    else:
-        return redirect('/')
+# def trainer_task_completed_teamlist(request):
+#     if 'tr_id' in request.session:
+#         if request.session.has_key('tr_id'):
+#             tr_id = request.session['tr_id']
+#         if request.session.has_key('tr_fullname'):
+#             tr_fullname = request.session['tr_fullname']
+#         else:
+#            tr_fullname = "dummy"
+#         z = user_registration.objects.filter(id=tr_id).filter(fullname=tr_fullname)
+#         tam = create_team.objects.filter(create_team_trainer=tr_fullname,create_team_status= 1).order_by('-id')
+#         des = designation.objects.get(designation_name='trainee')
+#         cut = user_registration.objects.filter(designation_id=des.id)
+#         return render(request, 'software_training/training/trainer/trainer_task_completed_teamlist.html',{'z': z, 'cut':cut, 'tam':tam})
+#     else:
+#         return redirect('/')
+# def trainer_task_completed_team_tasklist(request,id):
+#     if 'tr_id' in request.session:
+#         if request.session.has_key('tr_id'):
+#             tr_id = request.session['tr_id']
+#         else:
+#            tr_fullname = "dummy"
+#         z = user_registration.objects.filter(id=tr_id)
+#         tsk = trainer_task.objects.filter(trainer_task_team_name=id).order_by('-id')
+#         return render(request, 'software_training/training/trainer/trainer_task_completed_team_tasklist.html',{'z': z, 'tsk':tsk})
+#     else:
+#         return redirect('/')
 def trainer_task_previous_teamlist(request):
     if 'tr_id' in request.session:
         if request.session.has_key('tr_id'):
@@ -802,7 +806,7 @@ def trainer_traineesdetails(request,id):
         tre = create_team.objects.get(id=mem.team.id)
         labels = []
         data = []
-        queryset = user_registration.objects.filter(id=tr_id)
+        queryset = user_registration.objects.filter(id=id)
         for i in queryset:
             labels = [i.workperformance,i.attitude,i.creativity]
             data = [i.workperformance,i.attitude,i.creativity]
@@ -822,9 +826,82 @@ def trainer_current_attendance_view(request,id):
     else:
         return redirect('/')
 
+def trainer_paymentlist(request):
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+            tr_fullname = request.session['tr_fullname']
+        if request.session.has_key('tr_designation_id'):
+            tr_designation_id = request.session['tr_designation_id']
+        else:
+            m_id = "dummy"
+        z = user_registration.objects.filter(designation_id=tr_designation_id).filter(fullname=tr_fullname).filter(id=tr_id)
+        acc=acntspayslip.objects.filter(acntspayslip_user_id=tr_id).all().order_by('-id')
+        return render(request, 'software_training/training/trainer/trainer_paymentlist.html', {'acc': acc,'z':z})
+    else:
+        return redirect('/')
+
+def trainer_payment_viewslip(request,id,tid):
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+            tr_fullname = request.session['tr_fullname']
+        if request.session.has_key('tr_designation_id'):
+            tr_designation_id = request.session['tr_designation_id']
+        else:
+            m_id = "dummy"
+        z= user_registration.objects.filter(designation_id=tr_designation_id).filter(fullname=tr_fullname).filter(id=tr_id)
+        user = user_registration.objects.get(id=tid)
+        acc = acntspayslip.objects.get(id=id)
+        names = acntspayslip.objects.all()
+        return render(request, 'software_training/training/trainer/trainer_payment_viewslip.html', {'z': z,'user':user,'acc':acc})
+    else:
+        return redirect('/')
+
+def trainer_payment_print(request,id,tid):
+    if 'tr_id' in request.session:
+        if request.session.has_key('tr_id'):
+            tr_id = request.session['tr_id']
+        if request.session.has_key('tr_fullname'):
+            tr_fullname = request.session['tr_fullname']
+        if request.session.has_key('tr_designation_id'):
+            tr_designation_id = request.session['tr_designation_id']
+        else:
+            m_id = "dummy"
+        z = user_registration.objects.filter(designation_id=tr_designation_id).filter(fullname=tr_fullname).filter(id=tr_id)
+        mem = user_registration.objects.filter(id=tr_id)   
+        user = user_registration.objects.get(id=tid)
+        acc = acntspayslip.objects.get(id=id)
+        return render(request, 'software_training/training/trainer/trainer_payment_print.html', {'z': z,'user':user,'acc':acc,'mem': mem})
+    else:
+        return redirect('/')
 
 
-
+def pdf(request,id,tid):
+    date = datetime.now()   
+    acc = acntspayslip.objects.get(id=id)
+    user = user_registration.objects.get(id=tid)
+    template_path = 'software_training/training/trainer/trainer_payment_pdf.html'
+    context = {'acc': acc,'user':user,
+    'media_url':settings.MEDIA_URL,
+    'date':date
+    }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    #response['Content-Disposition'] = 'attachment; filename="certificate.pdf"'
+    response['Content-Disposition'] = 'filename="certificate.pdf"'
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
 
     

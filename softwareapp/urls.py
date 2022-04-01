@@ -387,8 +387,8 @@ urlpatterns = [
     path('trainer_taskfor/<int:id>',training_views.trainer_taskpage,name="traineer_taskpage"),
     path('trainer_givetask/<int:id>',training_views.trainer_givetask,name="traineer_givetask"),
     path('trainer_taskgiven/<int:id>',training_views.trainer_taskgivenpage,name="traineer_taskgivenpage"),        
-    path('trainer_task_completed_teamlist/', training_views.trainer_task_completed_teamlist, name='trainer_task_completed_teamlist'),
-    path('trainer_task_completed_team_tasklist/<int:id>', training_views.trainer_task_completed_team_tasklist, name='trainer_task_completed_team_tasklist'),
+    # path('trainer_task_completed_teamlist/', training_views.trainer_task_completed_teamlist, name='trainer_task_completed_teamlist'),
+    # path('trainer_task_completed_team_tasklist/<int:id>', training_views.trainer_task_completed_team_tasklist, name='trainer_task_completed_team_tasklist'),
     path('trainer_task_previous_teamlist/', training_views.trainer_task_previous_teamlist, name='trainer_task_previous_teamlist'),
     path('trainer_task_previous_team_tasklist/<int:id>', training_views.trainer_task_previous_team_tasklist, name='trainer_task_previous_team_tasklist'),
     path('trainer_trainees/', training_views.trainer_trainees, name='trainer_trainees'),
@@ -397,7 +397,10 @@ urlpatterns = [
     path('trainerimagechange/<int:id>', training_views.trainerimagechange, name='trainerimagechange'),
     path('trainer_passwordchange/', training_views.trainer_passwordchange, name='trainer_passwordchange'),
     path('trainer_logout/', training_views.trainer_logout, name='trainer_logout'),
-    
+    path('trainer_paymentlist/',training_views.trainer_paymentlist,name='trainer_paymentlist'),
+    path('trainer_payment_viewslip/<int:id>/<int:tid>/', training_views.trainer_payment_viewslip,name='trainer_payment_viewslip'),
+    path('trainer_payment_print/<int:id>/<int:tid>/', training_views.trainer_payment_print,name='trainer_payment_print'),
+    path('pdf/<int:id>/<int:tid>',training_views.pdf, name='pdf'),
     
    
    
@@ -495,9 +498,7 @@ urlpatterns = [
     path('accounts_payslip/', training_views.accounts_payslip, name='accounts_payslip'),
 
    
-]
-
-
-
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
